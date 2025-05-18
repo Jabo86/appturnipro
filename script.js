@@ -82,7 +82,9 @@ const translations = {
         noShiftsAssigned: "Nessun turno assegnato",
         noNotesPresent: "Nessuna nota presente",
         editNote: "Modifica nota",
-        snooze: "Posticipa (5 min)"
+        snooze: "Posticipa (5 min)",
+        alertShareError: "Errore nella condivisione del calendario.",
+        alertBackupError: "Errore nella creazione del backup."
     },
     en: {
         title: "AppTurni",
@@ -142,7 +144,9 @@ const translations = {
         noShiftsAssigned: "No shifts assigned",
         noNotesPresent: "No notes present",
         editNote: "Edit note",
-        snooze: "Snooze (5 min)"
+        snooze: "Snooze (5 min)",
+        alertShareError: "Error sharing the calendar.",
+        alertBackupError: "Error creating the backup."
     },
     fr: {
         title: "AppTurni",
@@ -202,7 +206,9 @@ const translations = {
         noShiftsAssigned: "Aucun quart assigné",
         noNotesPresent: "Aucune note présente",
         editNote: "Modifier la note",
-        snooze: "Repousser (5 min)"
+        snooze: "Repousser (5 min)",
+        alertShareError: "Erreur lors du partage du calendrier.",
+        alertBackupError: "Erreur lors de la création de la sauvegarde."
     },
     de: {
         title: "AppTurni",
@@ -262,7 +268,9 @@ const translations = {
         noShiftsAssigned: "Keine Schichten zugewiesen",
         noNotesPresent: "Keine Notizen vorhanden",
         editNote: "Notiz bearbeiten",
-        snooze: "Snooze (5 Min)"
+        snooze: "Snooze (5 Min)",
+        alertShareError: "Fehler beim Teilen des Kalenders.",
+        alertBackupError: "Fehler beim Erstellen des Backups."
     },
     es: {
         title: "AppTurni",
@@ -322,7 +330,9 @@ const translations = {
         noShiftsAssigned: "No hay turnos asignados",
         noNotesPresent: "No hay notas presentes",
         editNote: "Editar nota",
-        snooze: "Posponer (5 min)"
+        snooze: "Posponer (5 min)",
+        alertShareError: "Error al compartir el calendario.",
+        alertBackupError: "Error al crear la copia de seguridad."
     }
 };
 
@@ -479,40 +489,89 @@ function initializeHamburgerMenu() {
 }
 
 function shareCalendar() {
+    console.log('Inizio funzione shareCalendar');
     const icsContent = generateICSFile();
     const blob = new Blob([icsContent], { type: 'text/calendar' });
     const fileName = `calendar_${currentYear}_${currentMonth + 1}.ics`;
 
-    if (navigator.share && navigator.canShare) {
-        const file = new File([blob], fileName, { type: 'text/calendar' });
-        navigator.share({
-            title: 'AppTurni Calendario',
-            text: 'Condividi il tuo calendario AppTurni',
-            files: [file]
-        }).then(() => {
-            console.log('Calendario condiviso con successo tramite Web Share API');
-        }).catch(err => {
-            console.error('Errore nella condivisione tramite Web Share API:', err);
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = fileName;
-            a.click();
-            URL.revokeObjectURL(url);
-            console.log('Calendario scaricato come fallback');
-        });
-    } else {
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = fileName;
-        a.click();
-        URL.revokeObjectURL(url);
-        console.log('Calendario scaricato (Web Share API non supportata)');
-    }
+    document.addEventListener('deviceready', () => {
+        if (window.cordova && window.cordova.plugins && window.cordova.plugins.file) {
+            const directory = cordova.file.externalDataDirectory || cordova.file.dataDirectory;
+            window.resolveLocalFileSystemURL(directory, (dirEntry) => {
+                dirEntry.getFile(fileName, { create: true, exclusive: false }, (fileEntry) => {
+                    fileEntry.createWriter((fileWriter) => {
+                        fileWriter.onwriteend = () => {
+                            console.log('File ICS salvato:', fileEntry.toURL());
+                            // Usa cordova-plugin-file-opener2 per aprire il file
+                            if (window.cordova && window.cordova.plugins && window.cordova.plugins.fileOpener2) {
+                                cordova.plugins.fileOpener2.open(
+                                    fileEntry.toURL(),
+                                    'text/calendar',
+                                    {
+                                        error: (err) => {
+                                            console.error('Errore apertura file ICS:', err);
+                                            alert('alertShareError');
+                                        },
+                                        success: () => {
+                                            console.log('File ICS aperto per condivisione');
+                                        }
+                                    }
+                                );
+                            } else {
+                                console.warn('Plugin fileOpener2 non disponibile, fallback a download');
+                                fallbackDownload(blob, fileName);
+                            }
+                        };
+                        fileWriter.onerror = (err) => {
+                            console.error('Errore scrittura file ICS:', err);
+                            alert('alertShareError');
+                            fallbackDownload(blob, fileName);
+                        };
+                        fileWriter.write(blob);
+                    });
+                }, (err) => {
+                    console.error('Errore creazione file ICS:', err);
+                    alert('alertShareError');
+                    fallbackDownload(blob, fileName);
+                });
+            }, (err) => {
+                console.error('Errore accesso directory:', err);
+                alert('alertShareError');
+                fallbackDownload(blob, fileName);
+            });
+        } else if (navigator.share && navigator.canShare) {
+            const file = new File([blob], fileName, { type: 'text/calendar' });
+            navigator.share({
+                title: 'AppTurni Calendario',
+                text: 'Condividi il tuo calendario AppTurni',
+                files: [file]
+            }).then(() => {
+                console.log('Calendario condiviso con successo tramite Web Share API');
+            }).catch(err => {
+                console.error('Errore nella condivisione tramite Web Share API:', err);
+                fallbackDownload(blob, fileName);
+            });
+        } else {
+            console.log('Web Share API non supportata, fallback a download');
+            fallbackDownload(blob, fileName);
+        }
+    }, { once: true });
+}
+
+function fallbackDownload(blob, fileName) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    console.log('Download fallback eseguito:', fileName);
 }
 
 function generateICSFile() {
+    console.log('Generazione file ICS');
     let icsContent = `BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//AppTurni//Calendar//IT
@@ -558,6 +617,7 @@ END:VEVENT
 }
 
 function backupCalendar() {
+    console.log('Inizio funzione backupCalendar');
     const backupData = {
         shifts,
         localStorage: {}
@@ -568,14 +628,59 @@ function backupCalendar() {
             backupData.localStorage[key] = localStorage.getItem(key);
         }
     }
-    const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `backup_appturni_${new Date().toISOString().split('T')[0]}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-    console.log('Backup creato come file JSON');
+    const backupJson = JSON.stringify(backupData, null, 2);
+    const blob = new Blob([backupJson], { type: 'application/json' });
+    const fileName = `backup_appturni_${new Date().toISOString().split('T')[0]}.json`;
+
+    document.addEventListener('deviceready', () => {
+        if (window.cordova && window.cordova.plugins && window.cordova.plugins.file) {
+            const directory = cordova.file.externalDataDirectory || cordova.file.dataDirectory;
+            window.resolveLocalFileSystemURL(directory, (dirEntry) => {
+                dirEntry.getFile(fileName, { create: true, exclusive: false }, (fileEntry) => {
+                    fileEntry.createWriter((fileWriter) => {
+                        fileWriter.onwriteend = () => {
+                            console.log('File JSON salvato:', fileEntry.toURL());
+                            if (window.cordova && window.cordova.plugins && window.cordova.plugins.fileOpener2) {
+                                cordova.plugins.fileOpener2.open(
+                                    fileEntry.toURL(),
+                                    'application/json',
+                                    {
+                                        error: (err) => {
+                                            console.error('Errore apertura file JSON:', err);
+                                            alert('alertBackupError');
+                                        },
+                                        success: () => {
+                                            console.log('File JSON aperto');
+                                        }
+                                    }
+                                );
+                            } else {
+                                console.warn('Plugin fileOpener2 non disponibile, fallback a download');
+                                fallbackDownload(blob, fileName);
+                            }
+                        };
+                        fileWriter.onerror = (err) => {
+                            console.error('Errore scrittura file JSON:', err);
+                            alert('alertBackupError');
+                            fallbackDownload(blob, fileName);
+                        };
+                        fileWriter.write(blob);
+                    });
+                }, (err) => {
+                    console.error('Errore creazione file JSON:', err);
+                    alert('alertBackupError');
+                    fallbackDownload(blob, fileName);
+                });
+            }, (err) => {
+                console.error('Errore accesso directory:', err);
+                alert('alertBackupError');
+                fallbackDownload(blob, fileName);
+            });
+        } else {
+            console.log('Cordova file plugin non disponibile, fallback a download');
+            fallbackDownload(blob, fileName);
+        }
+    }, { once: true });
 }
 
 function initializeNotifications() {
@@ -633,10 +738,10 @@ function sendNoteNotification(year, month, day, noteText, noteTime) {
         const lang = localStorage.getItem('selectedLanguage') || 'it';
         const monthNames = {
             it: ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'],
-            en: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-            fr: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
-            de: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
-            es: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+        en: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+        fr: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+        de: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
+        es: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
         };
         const title = `Nota per ${day} ${monthNames[lang][month]} ${year}`;
         let triggerTime;
