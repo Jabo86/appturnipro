@@ -327,6 +327,7 @@ const translations = {
 };
 
 function updateTranslations(lang) {
+    console.log('Aggiornamento traduzioni per lingua:', lang);
     document.querySelectorAll('[data-translate]').forEach(element => {
         const key = element.getAttribute('data-translate');
         if (translations[lang][key]) {
@@ -357,7 +358,12 @@ function updateTranslations(lang) {
         de: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
         es: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
     };
-    document.getElementById('monthYear').textContent = `${monthNames[lang][currentMonth]} ${currentYear}`;
+    const monthYearElement = document.getElementById('monthYear');
+    if (monthYearElement) {
+        monthYearElement.textContent = `${monthNames[lang][currentMonth]} ${currentYear}`;
+    } else {
+        console.error('Elemento #monthYear non trovato');
+    }
 }
 
 const originalAlert = window.alert;
@@ -792,15 +798,25 @@ function decimalToTime(decimal) {
 }
 
 function openCreateShiftModal() {
-    document.getElementById('createShiftModal').classList.remove('hidden');
+    const modal = document.getElementById('createShiftModal');
+    if (modal) {
+        modal.classList.remove('hidden');
+    } else {
+        console.error('Modale #createShiftModal non trovato');
+    }
 }
 
 function closeCreateShiftModal() {
-    document.getElementById('createShiftModal').classList.add('hidden');
-    document.getElementById('shiftName').value = '';
-    document.getElementById('shiftAbbreviation').value = '';
-    document.getElementById('shiftHours').value = '';
-    document.getElementById('shiftColor').value = '#fef3c7';
+    const modal = document.getElementById('createShiftModal');
+    if (modal) {
+        modal.classList.add('hidden');
+        document.getElementById('shiftName').value = '';
+        document.getElementById('shiftAbbreviation').value = '';
+        document.getElementById('shiftHours').value = '';
+        document.getElementById('shiftColor').value = '#fef3c7';
+    } else {
+        console.error('Modale #createShiftModal non trovato');
+    }
 }
 
 function createShift() {
@@ -1059,6 +1075,10 @@ function showMainPage() {
 
 function renderShiftSelector() {
     const shiftSelector = document.getElementById('shiftSelector');
+    if (!shiftSelector) {
+        console.error('Elemento #shiftSelector non trovato');
+        return;
+    }
     shiftSelector.innerHTML = '';
     Object.keys(shifts).forEach(shiftKey => {
         const shift = shifts[shiftKey];
@@ -1101,6 +1121,10 @@ function nextMonth() {
 function renderCalendar() {
     const calendar = document.getElementById('calendar');
     const monthYear = document.getElementById('monthYear');
+    if (!calendar || !monthYear) {
+        console.error('Elementi #calendar o #monthYear non trovati:', { calendar, monthYear });
+        return;
+    }
     const lang = localStorage.getItem('selectedLanguage') || 'it';
     while (calendar.children.length > 7) {
         calendar.removeChild(calendar.lastChild);
@@ -1129,7 +1153,10 @@ function renderCalendar() {
         if (isCurrentMonth && day === today.getDate()) {
             dayCell.classList.add('today');
         }
-        const isHoliday = holidays.some(h => h.month === currentMonth && h.day === day);
+        // Verifica se il giorno è una domenica o una festività
+        const date = new Date(currentYear, currentMonth, day);
+        const isSunday = date.getDay() === 0; // Domenica
+        const isHoliday = holidays.some(h => h.month === currentMonth && h.day === day) || isSunday;
         if (isHoliday) {
             dayCell.classList.add('holiday');
         }
@@ -1201,6 +1228,7 @@ function renderCalendar() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('Inizializzazione app');
     loadCustomShifts();
     initializeLanguageSelector();
     initializeHamburgerMenu();
