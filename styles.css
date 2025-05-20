@@ -7,10 +7,10 @@ body {
 /* Calendario con larghezza fissa */
 .grid-cal {
     display: grid;
-    grid-template-columns: repeat(7, 60px); /* Larghezza fissa per ogni cella */
+    grid-template-columns: repeat(7, 55px); /* Larghezza fissa ridotta per ogni cella */
     gap: 2px;
     background-color: white;
-    width: 420px; /* Larghezza totale fissa del calendario (60px * 7) */
+    width: 385px; /* Larghezza totale fissa del calendario (55px * 7) */
     max-width: 100%;
     margin: 0 auto;
 }
@@ -30,7 +30,7 @@ body {
 }
 
 .day-cell {
-    width: 60px; /* Larghezza fissa */
+    width: 55px; /* Larghezza fissa ridotta */
     height: 100px; /* Altezza fissa */
     padding: 2px;
     display: flex;
@@ -101,15 +101,9 @@ body {
     }
 }
 
-/* Animazione contorno giallo per celle con nota (non festivi) */
+/* Contorno giallo fisso per celle con nota (non festivi) */
 .has-note {
-    animation: pulse-yellow-border 2s infinite;
-}
-
-@keyframes pulse-yellow-border {
-    0% { outline: 2px solid transparent; }
-    50% { outline: 2px solid #FFFF00; } /* Giallo forte per il contorno */
-    100% { outline: 2px solid transparent; }
+    outline: 2px solid #FFFF00; /* Giallo fortissimo, fisso */
 }
 
 /* Animazione contorno rosso per celle con nota sui festivi */
@@ -334,9 +328,7 @@ body {
     border-radius: 6px;
     font-weight: bold;
     cursor: pointer;
-    border: 2px solid #e2e8f /
-
-0;
+    border: 2px solid #e2e8f0;
     font-size: 12px;
 }
 
