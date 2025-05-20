@@ -7,7 +7,7 @@ body {
 /* Calendario con larghezza fissa */
 .grid-cal {
     display: grid;
-    grid-template-columns: repeat(7, 55px); /* Larghezza fissa ridotta per ogni cella */
+    grid-template-columns: repeat(7, 55px); /* Larghezza fissa per ogni cella */
     gap: 2px;
     background-color: white;
     width: 385px; /* Larghezza totale fissa del calendario (55px * 7) */
@@ -30,7 +30,7 @@ body {
 }
 
 .day-cell {
-    width: 55px; /* Larghezza fissa ridotta */
+    width: 55px; /* Larghezza fissa */
     height: 100px; /* Altezza fissa */
     padding: 2px;
     display: flex;
@@ -275,27 +275,27 @@ body {
 
 /* Classi per dimensioni del testo e altezza in base al numero di turni */
 .shift-count-1 {
-    font-size: 12px; /* Più grande per un solo turno */
+    font-size: 20px; /* Aumentato per un solo turno */
     height: 40px; /* Metà dell'altezza della cella (~100px) */
 }
 
 .shift-count-2 {
-    font-size: 10px;
+    font-size: 15px; /* Aumentato per 2 turni */
     height: 25px; /* Ridotto per 2 turni */
 }
 
 .shift-count-3 {
-    font-size: 9px;
+    font-size: 12px; /* Aumentato per 3 turni */
     height: 18px; /* Ridotto per 3 turni */
 }
 
 .shift-count-4 {
-    font-size: 8px;
+    font-size: 10px; /* Aumentato per 4 turni */
     height: 15px; /* Ridotto per 4 turni */
 }
 
 .shift-count-5 {
-    font-size: 7px;
+    font-size: 9px; /* Aumentato per 5 turni */
     height: 12px; /* Ridotto per 5 turni */
 }
 
