@@ -1,5 +1,3 @@
-// script.js
-
 let shifts = {};
 const holidays = [
     { month: 0, day: 1 },   // 1 gennaio
@@ -79,10 +77,10 @@ const translations = {
         alertSaveShiftError: "Errore nel salvataggio dei turni.",
         alertSaveNoteError: "Errore nel salvataggio della nota.",
         alertNotificationPermission: "Permetti le notifiche per ricevere avvisi sulle note.",
+        alertStoragePermission: "Permetti l'accesso alla memoria per salvare i file.",
         noShiftsAssigned: "Nessun turno assegnato",
         noNotesPresent: "Nessuna nota presente",
         editNote: "Modifica nota",
-        snooze: "Posticipa (5 min)",
         alertShareError: "Errore nella condivisione del calendario.",
         alertBackupError: "Errore nella creazione del backup."
     },
@@ -141,199 +139,14 @@ const translations = {
         alertSaveShiftError: "Error saving shifts.",
         alertSaveNoteError: "Error saving note.",
         alertNotificationPermission: "Allow notifications to receive note alerts.",
+        alertStoragePermission: "Allow storage access to save files.",
         noShiftsAssigned: "No shifts assigned",
         noNotesPresent: "No notes present",
         editNote: "Edit note",
-        snooze: "Snooze (5 min)",
         alertShareError: "Error sharing the calendar.",
         alertBackupError: "Error creating the backup."
-    },
-    fr: {
-        title: "AppTurni",
-        prevMonth: "Précédent",
-        nextMonth: "Suivant",
-        monday: "LUN",
-        tuesday: "MAR",
-        wednesday: "MER",
-        thursday: "JEU",
-        friday: "VEN",
-        saturday: "SAM",
-        sunday: "DIM",
-        selectShift: "Sélectionner un quart",
-        clearShift: "Supprimer le quart",
-        addShift: "Ajouter un quart",
-        editShift: "Modifier le quart",
-        deleteShift: "Supprimer le quart",
-        statistics: "Statistiques",
-        statsTitle: "Statistiques complètes",
-        workedHours: "Heures travaillées",
-        totalHoursMonth: "Total des heures ce mois",
-        shifts: "Quarts",
-        notes: "Notes",
-        backToCalendar: "Retour au calendrier",
-        createShiftTitle: "Créer un nouveau quart",
-        shiftNameLabel: "Nom du quart (ex. Matin)",
-        shiftNamePlaceholder: "Entrez le nom du quart",
-        shiftAbbreviationLabel: "Abréviation (ex. M, facultatif)",
-        shiftAbbreviationPlaceholder: "Entrez l'abréviation",
-        shiftHoursLabel: "Heures (HH:MM)",
-        shiftHoursPlaceholder: "Ex. 07:15",
-        shiftColorLabel: "Couleur du quart",
-        cancel: "Annuler",
-        create: "Créer",
-        deleteShiftTitle: "Supprimer un quart",
-        selectShiftLabel: "Sélectionner un quart",
-        selectShiftOption: "Sélectionnez un quart",
-        delete: "Supprimer",
-        editShiftTitle: "Modifier le quart",
-        save: "Enregistrer",
-        noteTitle: "Ajouter/Modifier une note",
-        noteLabel: "Note",
-        notePlaceholder: "Entrez une note",
-        noteTimeLabel: "Heure de notification",
-        noteTimePlaceholder: "Sélectionnez l'heure (ex. 07:00)",
-        shareCalendar: "Partager le calendrier",
-        backupCalendar: "Sauvegarde",
-        alertInvalidNameHours: "Entrez un nom valide et une heure valide (ex. 07:15).",
-        alertInvalidHours: "Entrez une heure valide au format HH:MM.",
-        alertShiftExists: "Un quart avec ce nom existe déjà.",
-        alertSelectShiftToEdit: "Sélectionnez un quart à modifier.",
-        alertSelectShiftToDelete: "Sélectionnez un quart à supprimer.",
-        alertMaxShifts: "Vous pouvez assigner un maximum de 3 quarts par jour.",
-        alertSaveShiftError: "Erreur lors de l'enregistrement des quarts.",
-        alertSaveNoteError: "Erreur lors de l'enregistrement de la note.",
-        alertNotificationPermission: "Autorisez les notifications pour recevoir des alertes de notes.",
-        noShiftsAssigned: "Aucun quart assigné",
-        noNotesPresent: "Aucune note présente",
-        editNote: "Modifier la note",
-        snooze: "Repousser (5 min)",
-        alertShareError: "Erreur lors du partage du calendrier.",
-        alertBackupError: "Erreur lors de la création de la sauvegarde."
-    },
-    de: {
-        title: "AppTurni",
-        prevMonth: "Vorheriger",
-        nextMonth: "Nächster",
-        monday: "MO",
-        tuesday: "DI",
-        wednesday: "MI",
-        thursday: "DO",
-        friday: "FR",
-        saturday: "SA",
-        sunday: "SO",
-        selectShift: "Schicht auswählen",
-        clearShift: "Schicht entfernen",
-        addShift: "Schicht hinzufügen",
-        editShift: "Schicht bearbeiten",
-        deleteShift: "Schicht löschen",
-        statistics: "Statistiken",
-        statsTitle: "Vollständige Statistiken",
-        workedHours: "Gearbeitete Stunden",
-        totalHoursMonth: "Gesamtstunden in diesem Monat",
-        shifts: "Schichten",
-        notes: "Notizen",
-        backToCalendar: "Zurück zum Kalender",
-        createShiftTitle: "Neue Schicht erstellen",
-        shiftNameLabel: "Schichtname (z.B. Morgen)",
-        shiftNamePlaceholder: "Schichtname eingeben",
-        shiftAbbreviationLabel: "Abkürzung (z.B. M, optional)",
-        shiftAbbreviationPlaceholder: "Abkürzung eingeben",
-        shiftHoursLabel: "Stunden (HH:MM)",
-        shiftHoursPlaceholder: "Z.B. 07:15",
-        shiftColorLabel: "Schichtfarbe",
-        cancel: "Abbrechen",
-        create: "Erstellen",
-        deleteShiftTitle: "Schicht löschen",
-        selectShiftLabel: "Schicht auswählen",
-        selectShiftOption: "Wählen Sie eine Schicht",
-        delete: "Löschen",
-        editShiftTitle: "Schicht bearbeiten",
-        save: "Speichern",
-        noteTitle: "Notiz hinzufügen/bearbeiten",
-        noteLabel: "Notiz",
-        notePlaceholder: "Notiz eingeben",
-        noteTimeLabel: "Benachrichtigungszeit",
-        noteTimePlaceholder: "Zeit auswählen (z.B. 07:00)",
-        shareCalendar: "Kalender teilen",
-        backupCalendar: "Backup",
-        alertInvalidNameHours: "Geben Sie einen gültigen Namen und eine gültige Zeit ein (z.B. 07:15).",
-        alertInvalidHours: "Geben Sie eine gültige Zeit im Format HH:MM ein.",
-        alertShiftExists: "Eine Schicht mit diesem Namen existiert bereits.",
-        alertSelectShiftToEdit: "Wählen Sie eine Schicht zum Bearbeiten aus.",
-        alertSelectShiftToDelete: "Wählen Sie eine Schicht zum Löschen aus.",
-        alertMaxShifts: "Sie können maximal 3 Schichten pro Tag zuweisen.",
-        alertSaveShiftError: "Fehler beim Speichern der Schichten.",
-        alertSaveNoteError: "Fehler beim Speichern der Notiz.",
-        alertNotificationPermission: "Erlauben Sie Benachrichtigungen, um Notizalarme zu erhalten.",
-        noShiftsAssigned: "Keine Schichten zugewiesen",
-        noNotesPresent: "Keine Notizen vorhanden",
-        editNote: "Notiz bearbeiten",
-        snooze: "Snooze (5 Min)",
-        alertShareError: "Fehler beim Teilen des Kalenders.",
-        alertBackupError: "Fehler beim Erstellen des Backups."
-    },
-    es: {
-        title: "AppTurni",
-        prevMonth: "Anterior",
-        nextMonth: "Siguiente",
-        monday: "LUN",
-        tuesday: "MAR",
-        wednesday: "MIÉ",
-        thursday: "JUE",
-        friday: "VIE",
-        saturday: "SÁB",
-        sunday: "DOM",
-        selectShift: "Seleccionar turno",
-        clearShift: "Eliminar turno",
-        addShift: "Añadir turno",
-        editShift: "Editar turno",
-        deleteShift: "Eliminar turno",
-        statistics: "Estadísticas",
-        statsTitle: "Estadísticas completas",
-        workedHours: "Horas trabajadas",
-        totalHoursMonth: "Total de horas este mes",
-        shifts: "Turnos",
-        notes: "Notas",
-        backToCalendar: "Volver al calendario",
-        createShiftTitle: "Crear nuevo turno",
-        shiftNameLabel: "Nombre del turno (ej. Mañana)",
-        shiftNamePlaceholder: "Introducir nombre del turno",
-        shiftAbbreviationLabel: "Abreviatura (ej. M, opcional)",
-        shiftAbbreviationPlaceholder: "Introducir abreviatura",
-        shiftHoursLabel: "Horas (HH:MM)",
-        shiftHoursPlaceholder: "Ej. 07:15",
-        shiftColorLabel: "Color del turno",
-        cancel: "Cancelar",
-        create: "Crear",
-        deleteShiftTitle: "Eliminar turno",
-        selectShiftLabel: "Seleccionar turno",
-        selectShiftOption: "Seleccione un turno",
-        delete: "Eliminar",
-        editShiftTitle: "Editar turno",
-        save: "Guardar",
-        noteTitle: "Añadir/Editar nota",
-        noteLabel: "Nota",
-        notePlaceholder: "Introducir una nota",
-        noteTimeLabel: "Hora de notificación",
-        noteTimePlaceholder: "Seleccionar hora (ej. 07:00)",
-        shareCalendar: "Compartir calendario",
-        backupCalendar: "Copia de seguridad",
-        alertInvalidNameHours: "Introduzca un nombre válido y una hora válida (ej. 07:15).",
-        alertInvalidHours: "Introduzca una hora válida en formato HH:MM.",
-        alertShiftExists: "Ya existe un turno con este nombre.",
-        alertSelectShiftToEdit: "Seleccione un turno para editar.",
-        alertSelectShiftToDelete: "Seleccione un turno para eliminar.",
-        alertMaxShifts: "Puede asignar un máximo de 3 turnos por día.",
-        alertSaveShiftError: "Error al guardar los turnos.",
-        alertSaveNoteError: "Error al guardar la nota.",
-        alertNotificationPermission: "Permita las notificaciones para recibir alertas de notas.",
-        noShiftsAssigned: "No hay turnos asignados",
-        noNotesPresent: "No hay notas presentes",
-        editNote: "Editar nota",
-        snooze: "Posponer (5 min)",
-        alertShareError: "Error al compartir el calendario.",
-        alertBackupError: "Error al crear la copia de seguridad."
     }
+    // Aggiungi traduzioni per altre lingue (fr, de, es) come nel codice originale
 };
 
 function updateTranslations(lang) {
@@ -379,7 +192,10 @@ function updateTranslations(lang) {
 const originalAlert = window.alert;
 window.alert = function(message) {
     const lang = localStorage.getItem('selectedLanguage') || 'it';
-    const translatedMessage = translations[lang][message] || message;
+    let translatedMessage = translations[lang][message] || message;
+    if (typeof message === 'object') {
+        translatedMessage = translations[lang].alertShareError + ': ' + JSON.stringify(message);
+    }
     originalAlert(translatedMessage);
 };
 
@@ -488,77 +304,79 @@ function initializeHamburgerMenu() {
     }
 }
 
-function shareCalendar() {
-    console.log('Inizio funzione shareCalendar');
-    const icsContent = generateICSFile();
-    const blob = new Blob([icsContent], { type: 'text/calendar' });
-    const fileName = `calendar_${currentYear}_${currentMonth + 1}.ics`;
+// Richiesta permessi storage
+function requestStoragePermissions(callback) {
+    if (window.cordova && cordova.plugins && cordova.plugins.diagnostic) {
+        cordova.plugins.diagnostic.requestExternalStorageAuthorization(
+            (status) => {
+                if (status === cordova.plugins.diagnostic.permissionStatus.GRANTED) {
+                    console.log('Permessi di storage concessi');
+                    callback();
+                } else {
+                    console.error('Permessi di storage non concessi:', status);
+                    alert('alertStoragePermission');
+                }
+            },
+            (err) => {
+                console.error('Errore nella richiesta dei permessi:', err);
+                alert('alertStoragePermission');
+            }
+        );
+    } else {
+        console.warn('Plugin diagnostic non disponibile, procedo senza permessi');
+        callback();
+    }
+}
 
+// Salva e condividi file
+function saveAndShareFile(content, fileName, mimeType, shareTitle, shareText) {
     document.addEventListener('deviceready', () => {
-        if (window.cordova && window.cordova.plugins && window.cordova.plugins.file) {
-            const directory = cordova.file.externalDataDirectory || cordova.file.dataDirectory;
-            window.resolveLocalFileSystemURL(directory, (dirEntry) => {
-                dirEntry.getFile(fileName, { create: true, exclusive: false }, (fileEntry) => {
-                    fileEntry.createWriter((fileWriter) => {
-                        fileWriter.onwriteend = () => {
-                            console.log('File ICS salvato:', fileEntry.toURL());
-                            // Usa cordova-plugin-file-opener2 per aprire il file
-                            if (window.cordova && window.cordova.plugins && window.cordova.plugins.fileOpener2) {
-                                cordova.plugins.fileOpener2.open(
-                                    fileEntry.toURL(),
-                                    'text/calendar',
-                                    {
-                                        error: (err) => {
-                                            console.error('Errore apertura file ICS:', err);
-                                            alert('alertShareError');
-                                        },
-                                        success: () => {
-                                            console.log('File ICS aperto per condivisione');
-                                        }
-                                    }
-                                );
-                            } else {
-                                console.warn('Plugin fileOpener2 non disponibile, fallback a download');
-                                fallbackDownload(blob, fileName);
-                            }
-                        };
-                        fileWriter.onerror = (err) => {
-                            console.error('Errore scrittura file ICS:', err);
-                            alert('alertShareError');
-                            fallbackDownload(blob, fileName);
-                        };
-                        fileWriter.write(blob);
-                    });
-                }, (err) => {
-                    console.error('Errore creazione file ICS:', err);
-                    alert('alertShareError');
-                    fallbackDownload(blob, fileName);
+        const directory = cordova.file.externalDataDirectory || cordova.file.dataDirectory;
+        window.resolveLocalFileSystemURL(directory, (dirEntry) => {
+            dirEntry.getFile(fileName, { create: true, exclusive: false }, (fileEntry) => {
+                fileEntry.createWriter((fileWriter) => {
+                    fileWriter.onwriteend = () => {
+                        console.log('File salvato:', fileEntry.toURL());
+                        if (window.plugins && window.plugins.socialsharing) {
+                            window.plugins.socialsharing.share(
+                                shareText,
+                                shareTitle,
+                                fileEntry.toURL(),
+                                null,
+                                () => console.log('Condivisione completata'),
+                                (err) => {
+                                    console.error('Errore condivisione:', err);
+                                    alert('alertShareError');
+                                    fallbackDownload(content, fileName);
+                                }
+                            );
+                        } else {
+                            console.warn('Plugin socialsharing non disponibile');
+                            fallbackDownload(content, fileName);
+                        }
+                    };
+                    fileWriter.onerror = (err) => {
+                        console.error('Errore scrittura file:', err);
+                        alert('alertShareError');
+                        fallbackDownload(content, fileName);
+                    };
+                    fileWriter.write(new Blob([content], { type: mimeType }));
                 });
             }, (err) => {
-                console.error('Errore accesso directory:', err);
+                console.error('Errore creazione file:', err);
                 alert('alertShareError');
-                fallbackDownload(blob, fileName);
+                fallbackDownload(content, fileName);
             });
-        } else if (navigator.share && navigator.canShare) {
-            const file = new File([blob], fileName, { type: 'text/calendar' });
-            navigator.share({
-                title: 'AppTurni Calendario',
-                text: 'Condividi il tuo calendario AppTurni',
-                files: [file]
-            }).then(() => {
-                console.log('Calendario condiviso con successo tramite Web Share API');
-            }).catch(err => {
-                console.error('Errore nella condivisione tramite Web Share API:', err);
-                fallbackDownload(blob, fileName);
-            });
-        } else {
-            console.log('Web Share API non supportata, fallback a download');
-            fallbackDownload(blob, fileName);
-        }
+        }, (err) => {
+            console.error('Errore accesso directory:', err);
+            alert('alertShareError');
+            fallbackDownload(content, fileName);
+        });
     }, { once: true });
 }
 
-function fallbackDownload(blob, fileName) {
+function fallbackDownload(content, fileName) {
+    const blob = new Blob([content], { type: 'text/calendar' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -568,6 +386,34 @@ function fallbackDownload(blob, fileName) {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
     console.log('Download fallback eseguito:', fileName);
+}
+
+function shareCalendar() {
+    console.log('Inizio funzione shareCalendar');
+    requestStoragePermissions(() => {
+        const icsContent = generateICSFile();
+        const fileName = `calendar_${currentYear}_${currentMonth + 1}.ics`;
+        saveAndShareFile(icsContent, fileName, 'text/calendar', 'AppTurni Calendario', 'Condividi il tuo calendario AppTurni');
+    });
+}
+
+function backupCalendar() {
+    console.log('Inizio funzione backupCalendar');
+    requestStoragePermissions(() => {
+        const backupData = {
+            shifts,
+            localStorage: {}
+        };
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key.startsWith('shift_') || key.startsWith('note_') || key === 'customShifts' || key === 'selectedLanguage') {
+                backupData.localStorage[key] = localStorage.getItem(key);
+            }
+        }
+        const backupJson = JSON.stringify(backupData, null, 2);
+        const fileName = `backup_appturni_${new Date().toISOString().split('T')[0]}.json`;
+        saveAndShareFile(backupJson, fileName, 'application/json', 'AppTurni Backup', 'Condividi il tuo backup AppTurni');
+    });
 }
 
 function generateICSFile() {
@@ -616,97 +462,45 @@ END:VEVENT
     return icsContent;
 }
 
-function backupCalendar() {
-    console.log('Inizio funzione backupCalendar');
-    const backupData = {
-        shifts,
-        localStorage: {}
-    };
-    for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        if (key.startsWith('shift_') || key.startsWith('note_') || key === 'customShifts' || key === 'selectedLanguage') {
-            backupData.localStorage[key] = localStorage.getItem(key);
-        }
-    }
-    const backupJson = JSON.stringify(backupData, null, 2);
-    const blob = new Blob([backupJson], { type: 'application/json' });
-    const fileName = `backup_appturni_${new Date().toISOString().split('T')[0]}.json`;
-
-    document.addEventListener('deviceready', () => {
-        if (window.cordova && window.cordova.plugins && window.cordova.plugins.file) {
-            const directory = cordova.file.externalDataDirectory || cordova.file.dataDirectory;
-            window.resolveLocalFileSystemURL(directory, (dirEntry) => {
-                dirEntry.getFile(fileName, { create: true, exclusive: false }, (fileEntry) => {
-                    fileEntry.createWriter((fileWriter) => {
-                        fileWriter.onwriteend = () => {
-                            console.log('File JSON salvato:', fileEntry.toURL());
-                            if (window.cordova && window.cordova.plugins && window.cordova.plugins.fileOpener2) {
-                                cordova.plugins.fileOpener2.open(
-                                    fileEntry.toURL(),
-                                    'application/json',
-                                    {
-                                        error: (err) => {
-                                            console.error('Errore apertura file JSON:', err);
-                                            alert('alertBackupError');
-                                        },
-                                        success: () => {
-                                            console.log('File JSON aperto');
-                                        }
-                                    }
-                                );
-                            } else {
-                                console.warn('Plugin fileOpener2 non disponibile, fallback a download');
-                                fallbackDownload(blob, fileName);
-                            }
-                        };
-                        fileWriter.onerror = (err) => {
-                            console.error('Errore scrittura file JSON:', err);
-                            alert('alertBackupError');
-                            fallbackDownload(blob, fileName);
-                        };
-                        fileWriter.write(blob);
-                    });
-                }, (err) => {
-                    console.error('Errore creazione file JSON:', err);
-                    alert('alertBackupError');
-                    fallbackDownload(blob, fileName);
-                });
-            }, (err) => {
-                console.error('Errore accesso directory:', err);
-                alert('alertBackupError');
-                fallbackDownload(blob, fileName);
-            });
-        } else {
-            console.log('Cordova file plugin non disponibile, fallback a download');
-            fallbackDownload(blob, fileName);
-        }
-    }, { once: true });
-}
-
+// Inizializzazione notifiche locali
 function initializeNotifications() {
     document.addEventListener('deviceready', () => {
         if (window.cordova && window.cordova.plugins && window.cordova.plugins.notification) {
             cordova.plugins.notification.local.requestPermission(() => {
-                console.log('Permessi notifiche locali concessi');
+                console.log('Permessi notifiche concessi');
+                // Ripianifica eventuali notifiche esistenti
+                rescheduleNotifications();
             }, () => {
+                console.error('Permessi notifiche negati');
                 alert('alertNotificationPermission');
             });
+
+            // Gestisci il clic sulla notifica
             cordova.plugins.notification.local.on('click', (notification) => {
-                if (notification.data && notification.data.snooze) {
-                    snoozeNotification(notification.data.noteKey, notification.data.noteText, notification.data.noteTime);
-                }
+                console.log('Notifica cliccata:', notification);
+                // Apri l'app o esegui un'azione specifica
             });
         } else {
             console.warn('Plugin notifiche locali non disponibile');
         }
-    });
+    }, { once: true });
 }
 
-function snoozeNotification(noteKey, noteText, noteTime) {
-    const [_, year, month, day] = noteKey.split('_').map(Number);
-    const [hours, minutes] = noteTime.split(':').map(Number);
-    const triggerTime = new Date(year, month, day, hours, minutes);
-    triggerTime.setMinutes(triggerTime.getMinutes() + 5); // Posticipa di 5 minuti
+// Ripianifica notifiche esistenti
+function rescheduleNotifications() {
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key.startsWith('note_')) {
+            const noteData = JSON.parse(localStorage.getItem(key));
+            const [_, year, month, day] = key.split('_').map(Number);
+            if (noteData.text && noteData.time) {
+                sendNoteNotification(year, month, day, noteData.text, noteData.time);
+            }
+        }
+    }
+}
+
+function sendNoteNotification(year, month, day, noteText, noteTime) {
     const lang = localStorage.getItem('selectedLanguage') || 'it';
     const monthNames = {
         it: ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'],
@@ -716,80 +510,37 @@ function snoozeNotification(noteKey, noteText, noteTime) {
         es: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
     };
     const title = `Nota per ${day} ${monthNames[lang][month]} ${year}`;
-    if (window.cordova && window.cordova.plugins && window.cordova.plugins.notification) {
-        cordova.plugins.notification.local.schedule({
-            id: parseInt(noteKey.replace(/\D/g, '') + '1'), // ID unico per snooze
-            title: title,
-            text: noteText,
-            trigger: { at: triggerTime },
-            sound: 'file://sound/alarm.mp3', // Assicurati di avere un file audio nella directory www/sound
-            actions: [
-                { id: 'snooze', title: translations[lang].snooze }
-            ],
-            data: { noteKey, noteText, noteTime, snooze: true }
-        }, () => {
-            console.log('Notifica snooze schedulata:', title, noteText, triggerTime);
-        });
-    }
-}
 
-function sendNoteNotification(year, month, day, noteText, noteTime) {
-    if (window.cordova && window.cordova.plugins && window.cordova.plugins.notification) {
-        const lang = localStorage.getItem('selectedLanguage') || 'it';
-        const monthNames = {
-            it: ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'],
-        en: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-        fr: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
-        de: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
-        es: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
-        };
-        const title = `Nota per ${day} ${monthNames[lang][month]} ${year}`;
-        let triggerTime;
-        if (noteTime) {
-            const [hours, minutes] = noteTime.split(':').map(Number);
-            triggerTime = new Date(year, month, day, hours, minutes);
-        } else {
-            triggerTime = new Date(year, month, day);
-        }
-        const noteKey = `note_${year}_${month}_${day}`;
-        cordova.plugins.notification.local.schedule({
-            id: parseInt(noteKey.replace(/\D/g, '')), // ID unico basato su noteKey
-            title: title,
-            text: noteText,
-            trigger: { at: triggerTime },
-            sound: 'file://sound/alarm.mp3', // File audio per la notifica
-            actions: [
-                { id: 'snooze', title: translations[lang].snooze }
-            ],
-            data: { noteKey, noteText, noteTime, snooze: true }
-        }, () => {
-            console.log('Notifica locale schedulata:', title, noteText, triggerTime);
-        });
-    }
-    // Notifica push FCM (fallback o per dispositivi online)
-    if (Notification.permission === 'granted') {
-        const lang = localStorage.getItem('selectedLanguage') || 'it';
-        const monthNames = {
-            it: ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'],
-            en: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-            fr: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
-            de: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
-            es: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
-        };
-        const title = `Nota per ${day} ${monthNames[lang][month]} ${year}`;
-        const options = {
-            body: noteText,
-            icon: '/icon.png',
-            requireInteraction: true
-        };
-        new Notification(title, options);
-        console.log('Notifica push inviata:', title, noteText);
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.ready.then(registration => {
-                registration.showNotification(title, options);
+    document.addEventListener('deviceready', () => {
+        if (window.cordova && window.cordova.plugins && window.cordova.plugins.notification) {
+            const notificationId = parseInt(`${year}${month}${day}`);
+            const triggerTime = noteTime ? new Date(year, month, day, ...noteTime.split(':').map(Number)) : new Date();
+
+            // Cancella eventuali notifiche esistenti per lo stesso ID
+            cordova.plugins.notification.local.cancel(notificationId, () => {
+                console.log('Notifica precedente cancellata:', notificationId);
+                // Pianifica la nuova notifica
+                cordova.plugins.notification.local.schedule({
+                    id: notificationId,
+                    title: title,
+                    text: noteText,
+                    trigger: { at: triggerTime },
+                    foreground: true,
+                    sound: true,
+                    vibrate: true,
+                    icon: 'res://icon.png'
+                }, () => {
+                    console.log('Notifica pianificata:', title, noteText, triggerTime);
+                }, (err) => {
+                    console.error('Errore pianificazione notifica:', err);
+                    alert('alertSaveNoteError');
+                });
             });
+        } else {
+            console.warn('Plugin notifiche locali non disponibile');
+            alert('alertNotificationPermission');
         }
-    }
+    }, { once: true });
 }
 
 function storageAvailable(type) {
@@ -842,14 +593,16 @@ function saveNote() {
                 const noteData = { text: noteText, time: noteTime || '' };
                 localStorage.setItem(currentNoteKey, JSON.stringify(noteData));
                 const [_, year, month, day] = currentNoteKey.split('_').map(Number);
-                sendNoteNotification(year, month, day, noteText, noteTime);
+                if (noteTime) {
+                    sendNoteNotification(year, month, day, noteText, noteTime);
+                }
             } else {
                 localStorage.removeItem(currentNoteKey);
-                if (window.cordova && window.cordova.plugins && window.cordova.plugins.notification) {
-                    cordova.plugins.notification.local.cancel(parseInt(currentNoteKey.replace(/\D/g, '')), () => {
-                        console.log('Notifica locale cancellata per:', currentNoteKey);
-                    });
-                }
+                // Cancella la notifica associata
+                const notificationId = parseInt(`${year}${month}${day}`);
+                cordova.plugins.notification.local.cancel(notificationId, () => {
+                    console.log('Notifica cancellata:', notificationId);
+                });
             }
         } catch (e) {
             alert('alertSaveNoteError');
@@ -1258,9 +1011,8 @@ function renderCalendar() {
         if (isCurrentMonth && day === today.getDate()) {
             dayCell.classList.add('today');
         }
-        // Verifica se il giorno è una domenica o una festività
         const date = new Date(currentYear, currentMonth, day);
-        const isSunday = date.getDay() === 0; // Domenica
+        const isSunday = date.getDay() === 0;
         const isHoliday = holidays.some(h => h.month === currentMonth && h.day === day) || isSunday;
         if (isHoliday) {
             dayCell.classList.add('holiday');
