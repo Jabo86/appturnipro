@@ -4,13 +4,43 @@ body {
     -webkit-tap-highlight-color: transparent;
 }
 
+/* Sovrascrivi lo sfondo dei modali per renderli opachi e limpidi */
+.fixed.inset-0.bg-gray-800.bg-opacity-50 {
+    background-color: rgba(0, 0, 0, 0.8); /* Sfondo più scuro e meno trasparente */
+    z-index: 1000; /* Sopra tutti gli altri elementi */
+}
+
+/* Sovrascrivi il contenuto del modale per maggiore leggibilità */
+.bg-white.p-6.rounded-lg.shadow-lg.max-w-sm.w.full {
+    background-color: white; /* Sfondo bianco solido */
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    color: #1f2937; /* Testo scuro per leggibilità */
+}
+
+/* Stile per il pulsante di chiusura (aggiunto per uniformità) */
+.bg-white.p-6.rounded-lg.shadow-lg.max-w-sm.w.full .px-4.py-2.bg-gray-300.rounded-lg,
+.bg-white.p-6.rounded-lg.shadow-lg.max-w-sm.w.full .px-4.py-2.bg-blue-600.text-white.rounded-lg,
+.bg-white.p-6.rounded-lg.shadow-lg.max-w-sm.w.full .px-4.py-2.bg-red-600.text-white.rounded-lg {
+    color: #1f2937; /* Testo scuro per pulsanti */
+}
+
+.bg-white.p-6.rounded-lg.shadow-lg.max-w-sm.w.full input:focus,
+.bg-white.p-6.rounded-lg.shadow-lg.max-w-sm.w.full select:focus,
+.bg-white.p-6.rounded-lg.shadow-lg.max-w-sm.w.full textarea:focus {
+    border-color: #3b82f6; /* Bordo blu quando attivo */
+    outline: none;
+}
+
 /* Calendario con larghezza fissa */
 .grid-cal {
     display: grid;
-    grid-template-columns: repeat(7, 55px); /* Larghezza fissa per ogni cella */
+    grid-template-columns: repeat(7, 60px); /* Larghezza fissa per ogni cella */
     gap: 2px;
     background-color: white;
-    width: 385px; /* Larghezza totale fissa del calendario (55px * 7) */
+    width: 420px; /* Larghezza totale fissa del calendario (60px * 7) */
     max-width: 100%;
     margin: 0 auto;
 }
@@ -30,7 +60,7 @@ body {
 }
 
 .day-cell {
-    width: 55px; /* Larghezza fissa */
+    width: 60px; /* Larghezza fissa */
     height: 100px; /* Altezza fissa */
     padding: 2px;
     display: flex;
@@ -101,9 +131,15 @@ body {
     }
 }
 
-/* Contorno giallo fisso per celle con nota (non festivi) */
+/* Animazione contorno giallo per celle con nota (non festivi) */
 .has-note {
-    outline: 2px solid #FFFF00; /* Giallo fortissimo, fisso */
+    animation: pulse-yellow-border 2s infinite;
+}
+
+@keyframes pulse-yellow-border {
+    0% { outline: 2px solid transparent; }
+    50% { outline: 2px solid #FFFF00; } /* Giallo forte per il contorno */
+    100% { outline: 2px solid transparent; }
 }
 
 /* Animazione contorno rosso per celle con nota sui festivi */
@@ -275,27 +311,27 @@ body {
 
 /* Classi per dimensioni del testo e altezza in base al numero di turni */
 .shift-count-1 {
-    font-size: 20px; /* Aumentato per un solo turno */
+    font-size: 12px; /* Più grande per un solo turno */
     height: 40px; /* Metà dell'altezza della cella (~100px) */
 }
 
 .shift-count-2 {
-    font-size: 15px; /* Aumentato per 2 turni */
+    font-size: 10px;
     height: 25px; /* Ridotto per 2 turni */
 }
 
 .shift-count-3 {
-    font-size: 12px; /* Aumentato per 3 turni */
+    font-size: 9px;
     height: 18px; /* Ridotto per 3 turni */
 }
 
 .shift-count-4 {
-    font-size: 10px; /* Aumentato per 4 turni */
+    font-size: 8px;
     height: 15px; /* Ridotto per 4 turni */
 }
 
 .shift-count-5 {
-    font-size: 9px; /* Aumentato per 5 turni */
+    font-size: 7px;
     height: 12px; /* Ridotto per 5 turni */
 }
 
@@ -511,4 +547,63 @@ body {
 .bg-white input[type="time"]:focus {
     outline: none;
     border-color: #3b82f6;
+}
+
+/* Annual View Styles */
+#annualPage {
+    display: none;
+    padding: 16px;
+}
+
+.annual-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.annual-month {
+    background-color: white;
+    border-radius: 8px;
+    padding: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.annual-month-title {
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 8px;
+    color: #3b82f6;
+}
+
+.annual-month-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+}
+
+.annual-day-cell {
+    font-size: 10px;
+    text-align: center;
+    padding: 2px;
+    border-radius: 2px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.annual-day-cell.holiday {
+    background-color: #ff0000;
+    color: white;
+}
+
+.annual-day-cell.has-shift {
+    font-weight: bold;
+    border-radius: 2px;
+    /* Il colore di sfondo è impostato dinamicamente via JavaScript */
+}
+
+.annual-day-cell.today {
+    outline: 1px solid #3b82f6;
 }
