@@ -37,17 +37,17 @@ body {
 /* Calendario principale - Modificato per essere responsive */
 .grid-cal {
     display: grid;
-    grid-template-columns: repeat(7, 1fr); /* Colonne proporzionali invece di 60px fissi */
+    grid-template-columns: repeat(7, 1fr);
     gap: 2px;
     background-color: white;
-    width: 100%; /* Adatta alla larghezza del contenitore */
-    max-width: 100%; /* Non supera lo schermo */
+    width: 100%;
+    max-width: 100%;
     margin: 0 auto;
 }
 
 .day-header {
     height: 24px;
-    font-size: clamp(8px, 2.5vw, 10px); /* Font responsive */
+    font-size: clamp(8px, 2.5vw, 10px);
     line-height: 24px;
     text-align: center;
     background-color: #3b82f6;
@@ -60,8 +60,8 @@ body {
 }
 
 .day-cell {
-    width: 100%; /* Adatta alla colonna */
-    aspect-ratio: 1 / 1.5; /* Rapporto altezza/larghezza per celle */
+    width: 100%;
+    height: 140px; /* Aumentato per ospitare 5 turni + nota */
     padding: 2px;
     display: flex;
     flex-direction: column;
@@ -70,7 +70,7 @@ body {
     background-color: white;
     border-radius: 5px;
     box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-    font-size: clamp(8px, 2vw, 10px); /* Font responsive */
+    font-size: clamp(8px, 2vw, 10px);
     position: relative;
     overflow: hidden;
     cursor: pointer;
@@ -557,7 +557,7 @@ body {
 
 .annual-container {
     display: grid;
-    grid-template-columns: 1fr; /* Una colonna su smartphone */
+    grid-template-columns: 1fr;
     gap: 16px;
     margin-bottom: 20px;
 }
@@ -618,7 +618,6 @@ body {
 
     .day-cell {
         font-size: 8px;
-        aspect-ratio: 1 / 1.2;
     }
 
     .day-number {
