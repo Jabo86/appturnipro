@@ -6,48 +6,48 @@ body {
 
 /* Sovrascrivi lo sfondo dei modali per renderli opachi e limpidi */
 .fixed.inset-0.bg-gray-800.bg-opacity-50 {
-    background-color: rgba(0, 0, 0, 0.8); /* Sfondo più scuro e meno trasparente */
-    z-index: 1000; /* Sopra tutti gli altri elementi */
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
 }
 
 /* Sovrascrivi il contenuto del modale per maggiore leggibilità */
 .bg-white.p-6.rounded-lg.shadow-lg.max-w-sm.w.full {
-    background-color: white; /* Sfondo bianco solido */
+    background-color: white;
     border-radius: 8px;
     padding: 16px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     position: relative;
-    color: #1f2937; /* Testo scuro per leggibilità */
+    color: #1f2937;
 }
 
-/* Stile per il pulsante di chiusura (aggiunto per uniformità) */
+/* Stile per il pulsante di chiusura */
 .bg-white.p-6.rounded-lg.shadow-lg.max-w-sm.w.full .px-4.py-2.bg-gray-300.rounded-lg,
 .bg-white.p-6.rounded-lg.shadow-lg.max-w-sm.w.full .px-4.py-2.bg-blue-600.text-white.rounded-lg,
 .bg-white.p-6.rounded-lg.shadow-lg.max-w-sm.w.full .px-4.py-2.bg-red-600.text-white.rounded-lg {
-    color: #1f2937; /* Testo scuro per pulsanti */
+    color: #1f2937;
 }
 
 .bg-white.p-6.rounded-lg.shadow-lg.max-w-sm.w.full input:focus,
 .bg-white.p-6.rounded-lg.shadow-lg.max-w-sm.w.full select:focus,
 .bg-white.p-6.rounded-lg.shadow-lg.max-w-sm.w.full textarea:focus {
-    border-color: #3b82f6; /* Bordo blu quando attivo */
+    border-color: #3b82f6;
     outline: none;
 }
 
-/* Calendario con larghezza fissa */
+/* Calendario principale - Modificato per essere responsive */
 .grid-cal {
     display: grid;
-    grid-template-columns: repeat(7, 60px); /* Larghezza fissa per ogni cella */
+    grid-template-columns: repeat(7, 1fr); /* Colonne proporzionali invece di 60px fissi */
     gap: 2px;
     background-color: white;
-    width: 420px; /* Larghezza totale fissa del calendario (60px * 7) */
-    max-width: 100%;
+    width: 100%; /* Adatta alla larghezza del contenitore */
+    max-width: 100%; /* Non supera lo schermo */
     margin: 0 auto;
 }
 
 .day-header {
     height: 24px;
-    font-size: 10px;
+    font-size: clamp(8px, 2.5vw, 10px); /* Font responsive */
     line-height: 24px;
     text-align: center;
     background-color: #3b82f6;
@@ -60,8 +60,8 @@ body {
 }
 
 .day-cell {
-    width: 60px; /* Larghezza fissa */
-    height: 100px; /* Altezza fissa */
+    width: 100%; /* Adatta alla colonna */
+    aspect-ratio: 1 / 1.5; /* Rapporto altezza/larghezza per celle */
     padding: 2px;
     display: flex;
     flex-direction: column;
@@ -70,7 +70,7 @@ body {
     background-color: white;
     border-radius: 5px;
     box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-    font-size: 10px;
+    font-size: clamp(8px, 2vw, 10px); /* Font responsive */
     position: relative;
     overflow: hidden;
     cursor: pointer;
@@ -78,10 +78,10 @@ body {
 
 .day-number {
     font-weight: 700;
-    font-size: 12px; /* Numero più piccolo */
+    font-size: clamp(10px, 3vw, 12px);
     position: absolute;
     top: 2px;
-    right: 2px; /* Posizionato in alto a destra */
+    right: 2px;
     width: 20px;
     height: 20px;
     display: flex;
@@ -102,7 +102,7 @@ body {
 }
 
 .note-text {
-    font-size: 8px;
+    font-size: clamp(6px, 1.8vw, 8px);
     line-height: 1.2;
     word-break: break-word;
     overflow: hidden;
@@ -112,7 +112,7 @@ body {
     text-align: center;
     color: #333;
     position: absolute;
-    bottom: 2px; /* Posizionato in basso nella cella */
+    bottom: 2px;
     left: 0;
     background-color: rgba(255, 255, 255, 0.9);
     padding: 2px 4px;
@@ -131,29 +131,29 @@ body {
     }
 }
 
-/* Animazione contorno giallo per celle con nota (non festivi) */
+/* Animazione contorno giallo per celle con nota */
 .has-note {
     animation: pulse-yellow-border 2s infinite;
 }
 
 @keyframes pulse-yellow-border {
     0% { outline: 2px solid transparent; }
-    50% { outline: 2px solid #FFFF00; } /* Giallo forte per il contorno */
+    50% { outline: 2px solid #FFFF00; }
     100% { outline: 2px solid transparent; }
 }
 
-/* Animazione contorno rosso per celle con nota sui festivi */
+/* Animazione contorno rosso per celle festive con nota */
 .has-note.holiday {
     animation: pulse-red-border 2s infinite;
 }
 
 @keyframes pulse-red-border {
     0% { outline: 2px solid transparent; }
-    50% { outline: 2px solid #ff0000; } /* Rosso per il contorno */
+    50% { outline: 2px solid #ff0000; }
     100% { outline: 2px solid transparent; }
 }
 
-/* Sfondo rosso statico per festivi senza nota */
+/* Sfondo rosso per festivi */
 .holiday {
     background-color: #ff0000;
 }
@@ -295,15 +295,15 @@ body {
 
 .shift-badge {
     font-weight: bold;
-    padding: 0; /* Nessun padding per massimizzare lo spazio */
+    padding: 0;
     border-radius: 6px;
     margin: 1px 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    width: 100%; /* Occupa tutta la larghezza della cella */
+    width: 100%;
     text-align: center;
-    box-sizing: border-box; /* Include bordi nella larghezza */
+    box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -311,33 +311,33 @@ body {
 
 /* Classi per dimensioni del testo e altezza in base al numero di turni */
 .shift-count-1 {
-    font-size: 12px; /* Più grande per un solo turno */
-    height: 40px; /* Metà dell'altezza della cella (~100px) */
+    font-size: clamp(10px, 3vw, 12px);
+    height: 40px;
 }
 
 .shift-count-2 {
-    font-size: 10px;
-    height: 25px; /* Ridotto per 2 turni */
+    font-size: clamp(8px, 2.5vw, 10px);
+    height: 25px;
 }
 
 .shift-count-3 {
-    font-size: 9px;
-    height: 18px; /* Ridotto per 3 turni */
+    font-size: clamp(7px, 2vw, 9px);
+    height: 18px;
 }
 
 .shift-count-4 {
-    font-size: 8px;
-    height: 15px; /* Ridotto per 4 turni */
+    font-size: clamp(6px, 1.8vw, 8px);
+    height: 15px;
 }
 
 .shift-count-5 {
-    font-size: 7px;
-    height: 12px; /* Ridotto per 5 turni */
+    font-size: clamp(5px, 1.5vw, 7px);
+    height: 12px;
 }
 
 .single-shift {
     border-radius: 8px;
-    width: 100%; /* Occupa tutta la larghezza */
+    width: 100%;
     margin: 0 auto;
     box-sizing: border-box;
 }
@@ -381,23 +381,23 @@ body {
 
 .note-edit-btn {
     position: absolute;
-    top: 2px; /* Posizionato in alto a sinistra */
+    top: 2px;
     left: 2px;
     font-size: 10px;
     color: #3b82f6;
     cursor: pointer;
-    z-index: 11; /* Sopra gli altri elementi */
+    z-index: 11;
 }
 
 .shifts-container {
     display: flex;
-    flex-direction: column; /* Impila i turni verticalmente */
+    flex-direction: column;
     gap: 1px;
     justify-content: center;
     align-items: center;
-    width: 100%; /* Occupa tutta la larghezza della cella */
-    margin-top: 20px; /* Spazio per il numero del giorno e il simbolo della nota */
-    margin-bottom: 12px; /* Spazio per la nota in basso */
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 12px;
 }
 
 .language-container {
@@ -549,7 +549,7 @@ body {
     border-color: #3b82f6;
 }
 
-/* Annual View Styles */
+/* Annual View Styles - Modificato per essere responsive */
 #annualPage {
     display: none;
     padding: 16px;
@@ -557,7 +557,7 @@ body {
 
 .annual-container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr; /* Una colonna su smartphone */
     gap: 16px;
     margin-bottom: 20px;
 }
@@ -567,6 +567,8 @@ body {
     border-radius: 8px;
     padding: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 100%;
 }
 
 .annual-month-title {
@@ -580,10 +582,11 @@ body {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 2px;
+    width: 100%;
 }
 
 .annual-day-cell {
-    font-size: 10px;
+    font-size: clamp(8px, 2.5vw, 10px);
     text-align: center;
     padding: 2px;
     border-radius: 2px;
@@ -601,9 +604,45 @@ body {
 .annual-day-cell.has-shift {
     font-weight: bold;
     border-radius: 2px;
-    /* Il colore di sfondo è impostato dinamicamente via JavaScript */
 }
 
 .annual-day-cell.today {
     outline: 1px solid #3b82f6;
+}
+
+/* Media query per schermi piccoli */
+@media (max-width: 400px) {
+    .grid-cal {
+        grid-template-columns: repeat(7, 1fr);
+    }
+
+    .day-cell {
+        font-size: 8px;
+        aspect-ratio: 1 / 1.2;
+    }
+
+    .day-number {
+        font-size: 10px;
+    }
+
+    .shift-badge {
+        font-size: clamp(6px, 2vw, 8px);
+    }
+
+    .note-text {
+        font-size: 6px;
+    }
+
+    .annual-container {
+        grid-template-columns: 1fr;
+    }
+
+    .annual-month-grid {
+        grid-template-columns: repeat(7, 1fr);
+    }
+
+    .annual-day-cell {
+        font-size: 8px;
+        height: 14px;
+    }
 }
