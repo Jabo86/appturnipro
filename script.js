@@ -83,7 +83,11 @@ const translations = {
         noNotesPresent: "Nessuna nota presente",
         editNote: "Modifica nota",
         alertShareError: "Errore nella condivisione del calendario.",
-        alertBackupError: "Errore nella creazione del backup."
+        alertBackupError: "Errore nella creazione del backup.",
+        annualTitle: "Visualizzazione Annuale",
+        annualStats: "Statistiche Annuali",
+        totalHoursYear: "Totale ore quest'anno",
+        viewAnnual: "Visualizzazione Annuale"
     },
     en: {
         title: "AppTurni",
@@ -145,7 +149,11 @@ const translations = {
         noNotesPresent: "No notes present",
         editNote: "Edit note",
         alertShareError: "Error sharing the calendar.",
-        alertBackupError: "Error creating the backup."
+        alertBackupError: "Error creating the backup.",
+        annualTitle: "Annual View",
+        annualStats: "Annual Statistics",
+        totalHoursYear: "Total hours this year",
+        viewAnnual: "Annual View"
     },
     fr: {
         title: "AppTurni",
@@ -207,7 +215,11 @@ const translations = {
         noNotesPresent: "Aucune note présente",
         editNote: "Modifier la note",
         alertShareError: "Erreur lors du partage du calendrier.",
-        alertBackupError: "Erreur lors de la création de la sauvegarde."
+        alertBackupError: "Erreur lors de la création de la sauvegarde.",
+        annualTitle: "Vue Annuelle",
+        annualStats: "Statistiques Annuelles",
+        totalHoursYear: "Total des heures cette année",
+        viewAnnual: "Vue Annuelle"
     },
     de: {
         title: "AppTurni",
@@ -269,7 +281,11 @@ const translations = {
         noNotesPresent: "Keine Notizen vorhanden",
         editNote: "Notiz bearbeiten",
         alertShareError: "Fehler beim Teilen des Kalenders.",
-        alertBackupError: "Fehler beim Erstellen des Backups."
+        alertBackupError: "Fehler beim Erstellen des Backups.",
+        annualTitle: "Jahresansicht",
+        annualStats: "Jährliche Statistiken",
+        totalHoursYear: "Gesamtstunden dieses Jahres",
+        viewAnnual: "Jahresansicht"
     },
     es: {
         title: "AppTurni",
@@ -331,7 +347,11 @@ const translations = {
         noNotesPresent: "No hay notas presentes",
         editNote: "Editar nota",
         alertShareError: "Error al compartir el calendario.",
-        alertBackupError: "Error al crear la copia de seguridad."
+        alertBackupError: "Error al crear la copia de seguridad.",
+        annualTitle: "Vista Anual",
+        annualStats: "Estadísticas Anuales",
+        totalHoursYear: "Total de horas este año",
+        viewAnnual: "Vista Anual"
     }
 };
 
@@ -436,6 +456,7 @@ function initializeHamburgerMenu() {
     });
     document.getElementById('shareCalendar').addEventListener('click', shareCalendar);
     document.getElementById('backupCalendar').addEventListener('click', backupCalendar);
+    document.getElementById('viewAnnual').addEventListener('click', showAnnualPage);
 }
 
 function requestStoragePermissions(callback) {
@@ -814,9 +835,14 @@ function openEditShiftModal() {
         }
     });
     const modal = document.getElementById('editShiftModal');
-    const modalContent = modal.querySelector('.bg-white');
-    const title = modalContent.querySelector('h3');
-    title.insertAdjacentElement('afterend', select);
+    const modalContent = modal.querySelector('.bg-white.p-6.rounded-lg.shadow-lg.max-w-sm.w-full');
+    const title = modalContent ? modalContent.querySelector('h3') : null;
+    if (modalContent && title) {
+        title.insertAdjacentElement('afterend', select);
+    } else {
+        console.warn('Contenuto del modale o titolo non trovato, uso fallback');
+        modal.appendChild(select);
+    }
     modal.classList.remove('hidden');
     updateTranslations(localStorage.getItem('selectedLanguage') || 'it');
 }
@@ -1005,12 +1031,22 @@ function updateStatsNotes() {
 function showStatsPage() {
     document.getElementById('mainPage').style.display = 'none';
     document.getElementById('statsPage').style.display = 'block';
+    document.getElementById('annualPage').style.display = 'none';
     updateWorkedHoursAndSummary();
 }
 
 function showMainPage() {
     document.getElementById('mainPage').style.display = 'block';
     document.getElementById('statsPage').style.display = 'none';
+    document.getElementById('annualPage').style.display = 'none';
+}
+
+function showAnnualPage() {
+    document.getElementById('mainPage').style.display = 'none';
+    document.getElementById('statsPage').style.display = 'none';
+    document.getElementById('annualPage').style.display = 'block';
+    renderAnnualCalendar();
+    updateAnnualStats();
 }
 
 function renderShiftSelector() {
@@ -1160,6 +1196,10 @@ function prevMonth() {
         currentYear--;
     }
     renderCalendar();
+    // Aggiorna le statistiche se siamo nella pagina delle statistiche
+    if (document.getElementById('statsPage').style.display === 'block') {
+        updateWorkedHoursAndSummary();
+    }
 }
 
 function nextMonth() {
@@ -1169,6 +1209,172 @@ function nextMonth() {
         currentYear++;
     }
     renderCalendar();
+    // Aggiorna le statistiche se siamo nella pagina delle statistiche
+    if (document.getElementById('statsPage').style.display === 'block') {
+        updateWorkedHoursAndSummary();
+    }
+}
+
+function renderAnnualCalendar() {
+    const annualContainer = document.getElementById('annualCalendar');
+    annualContainer.innerHTML = '';
+    
+    const today = new Date();
+    const currentYear = today.getFullYear();
+    
+    for (let month = 0; month < 12; month++) {
+        const monthDiv = document.createElement('div');
+        monthDiv.className = 'annual-month';
+        
+        const titleDiv = document.createElement('div');
+        titleDiv.className = 'annual-month-title';
+        titleDiv.textContent = getMonthName(month, currentYear);
+        monthDiv.appendChild(titleDiv);
+        
+        const gridDiv = document.createElement('div');
+        gridDiv.className = 'annual-month-grid';
+        
+        // Aggiungi intestazioni giorni
+        const dayNames = getDayNames();
+        dayNames.forEach(day => {
+            const dayHeader = document.createElement('div');
+            dayHeader.className = 'annual-day-cell';
+            dayHeader.textContent = day;
+            gridDiv.appendChild(dayHeader);
+        });
+        
+        // Aggiungi giorni
+        const firstDay = new Date(currentYear, month, 1).getDay();
+        const daysInMonth = new Date(currentYear, month + 1, 0).getDate();
+        const offset = firstDay === 0 ? 6 : firstDay - 1;
+        
+        for (let i = 0; i < offset; i++) {
+            const emptyCell = document.createElement('div');
+            emptyCell.className = 'annual-day-cell';
+            gridDiv.appendChild(emptyCell);
+        }
+        
+        for (let day = 1; day <= daysInMonth; day++) {
+            const cell = document.createElement('div');
+            cell.className = 'annual-day-cell';
+            
+            // Evidenzia oggi
+            if (today.getFullYear() === currentYear && 
+                today.getMonth() === month && 
+                today.getDate() === day) {
+                cell.classList.add('today');
+            }
+            
+            // Controlla se è un giorno festivo
+            const date = new Date(currentYear, month, day);
+            const isHoliday = holidays.some(h => h.month === month && h.day === day) || date.getDay() === 0;
+            if (isHoliday) {
+                cell.classList.add('holiday');
+            }
+            
+            // Controlla se ci sono turni
+            const shiftKey = `shift_${currentYear}_${month}_${day}`;
+            const shiftNames = loadShift(shiftKey);
+            if (shiftNames.length > 0) {
+                cell.classList.add('has-shift');
+                cell.textContent = shiftNames.map(name => shifts[name]?.abbreviation || '?').join('');
+                // Applica il colore del primo turno
+                if (shifts[shiftNames[0]]) {
+                    cell.style.backgroundColor = shifts[shiftNames[0]].color;
+                    cell.style.color = isDarkColor(shifts[shiftNames[0]].color) ? '#ffffff' : '#000000';
+                }
+            } else {
+                cell.textContent = day;
+            }
+            
+            gridDiv.appendChild(cell);
+        }
+        
+        monthDiv.appendChild(gridDiv);
+        annualContainer.appendChild(monthDiv);
+    }
+}
+
+function isDarkColor(hex) {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+    return brightness < 128;
+}
+
+function updateAnnualStats() {
+    const currentYear = new Date().getFullYear();
+    let totalWorked = 0;
+    const shiftCounts = {};
+    const shiftHours = {};
+    
+    Object.keys(shifts).forEach(shift => {
+        shiftCounts[shift] = 0;
+        shiftHours[shift] = 0;
+    });
+    
+    for (let month = 0; month < 12; month++) {
+        const daysInMonth = new Date(currentYear, month + 1, 0).getDate();
+        
+        for (let day = 1; day <= daysInMonth; day++) {
+            const shiftKey = `shift_${currentYear}_${month}_${day}`;
+            const shiftNames = loadShift(shiftKey);
+            
+            shiftNames.forEach(shiftName => {
+                if (shifts[shiftName]) {
+                    shiftCounts[shiftName]++;
+                    shiftHours[shiftName] += shifts[shiftName].hours;
+                    totalWorked += shifts[shiftName].hours;
+                }
+            });
+        }
+    }
+    
+    document.getElementById('annualWorkedHours').textContent = decimalToTime(totalWorked);
+    
+    const lang = localStorage.getItem('selectedLanguage') || 'it';
+    let summaryHtml = '';
+    Object.keys(shifts).forEach(shift => {
+        const totalHours = shiftHours[shift];
+        const formattedHours = decimalToTime(totalHours);
+        summaryHtml += `
+            <div class="stats-item">
+                <div class="stats-item-title">${shifts[shift].name}</div>
+                <div class="stats-item-value">${shiftCounts[shift]}</div>
+                <div class="stats-item-title">${formattedHours}</div>
+            </div>
+        `;
+    });
+    
+    if (!Object.keys(shifts).length) {
+        summaryHtml = `<div class="stats-item">${translations[lang].noShiftsAssigned}</div>`;
+    }
+    
+    document.getElementById('annualShiftsDetails').innerHTML = summaryHtml;
+}
+
+function getMonthName(month, year) {
+    const lang = localStorage.getItem('selectedLanguage') || 'it';
+    const monthNames = {
+        it: ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'],
+        en: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+        fr: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+        de: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
+        es: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+    };
+    return monthNames[lang][month];
+}
+
+function getDayNames() {
+    const lang = localStorage.getItem('selectedLanguage') || 'it';
+    return {
+        it: ['L', 'M', 'M', 'G', 'V', 'S', 'D'],
+        en: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+        fr: ['L', 'M', 'M', 'J', 'V', 'S', 'D'],
+        de: ['M', 'D', 'M', 'D', 'F', 'S', 'S'],
+        es: ['L', 'M', 'M', 'J', 'V', 'S', 'D']
+    }[lang];
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -1178,4 +1384,5 @@ document.addEventListener('DOMContentLoaded', () => {
     loadCustomShifts();
     renderShiftSelector();
     renderCalendar();
+    showMainPage(); // Mostra solo la pagina principale all'inizio
 });
