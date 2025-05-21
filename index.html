@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Flag Icons CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/4.1.5/css/flag-icons.min.css">
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
     <!-- Collegamento al file CSS esterno -->
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -36,6 +38,9 @@
                         </button>
                         <button id="backupCalendar" class="menu-item" data-translate="backupCalendar">
                             <i class="fas fa-download mr-2"></i> Backup
+                        </button>
+                        <button id="viewAnnual" class="menu-item" data-translate="viewAnnual">
+                            <i class="fas fa-calendar-alt mr-2"></i> Visualizzazione Annuale
                         </button>
                     </div>
                 </div>
@@ -98,7 +103,7 @@
                 </button>
             </div>
         </div>
-        <div id="statsPage" class="hidden">
+        <div id="statsPage">
             <h1 class="stats-page-title" data-translate="statsTitle">
                 <i class="fas fa-chart-bar mr-1"></i> Statistiche Complete
             </h1>
@@ -125,6 +130,27 @@
                 </div>
                 <div class="notes-container">
                     <div id="statsNotesList"></div>
+                </div>
+            </div>
+            <button onclick="showMainPage()" class="back-btn" data-translate="backToCalendar">
+                <i class="fas fa-arrow-left mr-1"></i> Torna al Calendario
+            </button>
+        </div>
+        <div id="annualPage">
+            <h1 class="stats-page-title" data-translate="annualTitle">
+                <i class="fas fa-calendar-alt mr-1"></i> Visualizzazione Annuale
+            </h1>
+            <div class="annual-container" id="annualCalendar"></div>
+            <div class="stats-section">
+                <div class="stats-section-title" data-translate="annualStats">
+                    <i class="fas fa-chart-pie mr-1"></i> Statistiche Annuali
+                </div>
+                <div class="stats-container">
+                    <div id="annualWorkedHours" class="stats-value">0.00</div>
+                    <div class="stats-subtitle" data-translate="totalHoursYear">Totale ore quest'anno</div>
+                </div>
+                <div class="shift-stats-container">
+                    <div id="annualShiftsDetails" class="stats-grid"></div>
                 </div>
             </div>
             <button onclick="showMainPage()" class="back-btn" data-translate="backToCalendar">
@@ -214,8 +240,17 @@
             </div>
         </div>
     </div>
-    <!-- Script -->
-    <script src="cordova.js"></script>
+    <!-- Collegamento al file JavaScript esterno -->
     <script src="script.js"></script>
+    <!-- Service Worker per PWA -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => console.log('Service Worker registered', reg))
+                    .catch(err => console.error('Service Worker registration failed', err));
+            });
+        }
+    </script>
 </body>
 </html>
